@@ -143,7 +143,6 @@ int main(int argc, char **argv){
 		sort->quick_sort_beginning_pivot(vetor, 0, size-1);
 	}else if(type_sort == quicksort_R){
 		// printf("Ordenado por Quick R Sort\n");
-		printf("oi\n");
 		sort->quick_sort_random_pivot(vetor, 0, size-1);
 	}else if(type_sort == heapsort){
 		// printf("Ordenado por Heap Sort\n");
@@ -152,7 +151,7 @@ int main(int argc, char **argv){
 		// printf("Ordenado por Counting Sort\n");
 		sort->counting_sort(vetor, size);
 	}else if(type_sort == bucketsort){
-		// printf("Ordenado por Bucket Sort\n");
+		printf("Ordenado por Bucket Sort\n");
 		sort->bucket_sort(vetor, size);
 	}
 	//captura o tempo final

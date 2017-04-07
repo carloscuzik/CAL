@@ -1,0 +1,53 @@
+Highcharts.chart('container', {
+	title: {
+		text: 'Gráfico com Vetores Ordenados de Maneira Aleatória com númeors de 1 a n'
+	},
+	xAxis: {
+		categories: [25000,50000,75000,100000,1000000]
+	},
+	yAxis: {
+		title: {
+			text: 'Tempo (s)'
+		}
+	},
+	legend: {
+		layout: 'vertical',
+		align: 'right',
+		verticalAlign: 'middle'
+	},
+	plotOptions: {
+	},
+	series: [
+	{
+		name: 'Bubble Sort',
+		data: [6.144085,24.962845,57.624713,101.132930,null]
+	},
+		{
+		name: 'Insert Sort',
+		data: [1.194026,4.921870,11.306228,19.942123,2053.983076]
+	},
+	{
+		name: 'Merge Sort',
+		data: [0.005751,0.012453,0.019098,0.025537,0.300292]
+	},
+	{
+		name: 'Quick B Sort',
+		data: [0.341500,1.361856,3.101750,5.432245,544.686874]
+	},
+	{
+		name: '	Quick R Sort',
+		data: [0.003798,0.007970,0.012581,0.016644,0.205768]
+	},
+	{
+		name: 'Heap Sort',
+		data: [0.026566,0.057201,0.089004,0.121700,1.539565]
+	},
+	{
+		name: 'Counting Sort',
+		data: [0.000573,0.001132,0.001794,0.002313,0.031787]
+	},
+	{
+		name: 'Bucket Sort',
+		data: [0.000518,0.001075,0.001610,0.002347,0.028997]
+	}]
+});

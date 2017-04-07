@@ -191,7 +191,8 @@ void Sorting::findMinMax( int* arr, int len, int& mi, int& mx ){
 // Bucket Sort
 void Sorting::bucket_sort(int array[], int n){
     int i, j;
-    int count[n];
+    int *count = (int*) calloc(sizeof(int),n);
+    
     for (i = 0; i < n; i++){
         count[i] = 0;
     }
