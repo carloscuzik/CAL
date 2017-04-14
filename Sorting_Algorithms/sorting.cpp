@@ -162,7 +162,8 @@ void Sorting::maxHeapify(std::vector<int> &lista, const int pos, const int n ){
 void Sorting::counting_sort(int* arr, int len ){
 	int mi, mx, z = 0; 
 	findMinMax( arr, len, mi, mx );
-	int nlen = ( mx - mi ) + 1; int* temp = new int[nlen];
+	int nlen = ( mx - mi ) + 1;
+    int* temp = new int[nlen];
 	memset( temp, 0, nlen * sizeof( int ) );
 	for( int i = 0; i < len; i++ ){
 		temp[arr[i] - mi]++;

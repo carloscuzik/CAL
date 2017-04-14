@@ -20,12 +20,12 @@ size_v += [25000,50000,75000,100000,1000000]
 			#print("./exe" + " " + str(i) + " " + str(j) + " " + str(k))
 			#call("./exe" + " " + str(i) + " " + str(j) + " " + str(k), shell = True)
 
-#call("./exe 3 10 1000000", shell = True)
-call("./exe 0 20 1000000", shell = True)
+# call("./exe 3 10 1000000", shell = True)
+# call("./exe 0 20 1000000", shell = True)
 call("./exe 1 20 1000000", shell = True)
 call("./exe 3 20 1000000", shell = True)
-call("./exe 0 30 1000000", shell = True)
-call("./exe 0 40 1000000", shell = True)
+# call("./exe 0 30 1000000", shell = True)
+# call("./exe 0 40 1000000", shell = True)
 call("./exe 1 40 1000000", shell = True)
 call("./exe 3 40 1000000", shell = True)
 
