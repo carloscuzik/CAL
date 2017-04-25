@@ -20,7 +20,6 @@ int Hash_encadiado::gera_chave(std::string nome, std::string sobrenome){
 
 void Hash_encadiado::inserir(int indice, std::string nome, std::string sobrenome){
     int chave = gera_chave(nome, sobrenome);
-    std::cout << "oi" << std::endl;
     if(this->lista[chave]==NULL){
         this->lista[chave] = new Lista_encadiada();
     }

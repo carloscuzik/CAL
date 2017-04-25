@@ -4,7 +4,7 @@
 import sys
 from subprocess import call
 
-type_ini = [2,3,1]
+type_ini = [3]
 
 arq = [1,2,3,4,5]
 

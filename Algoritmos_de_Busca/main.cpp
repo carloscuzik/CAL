@@ -85,7 +85,7 @@ int main(int argc, char *argv[]){
 		fprintf(out, "%i %lf %lf\n", n, tempo_insecao, tempo_busca);
 	}else if(type==3){
 		cin >> n;
-		Hash_encadiado *hash = new Hash_encadiado(1000);
+		Hash_encadiado *hash = new Hash_encadiado(n);
 		gettimeofday(&inicio, NULL);
 		for(i=0;i<n;i++){
 			cin >> indice; 
