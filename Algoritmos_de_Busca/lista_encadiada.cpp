@@ -2,19 +2,18 @@
 
 Lista_encadiada::Lista_encadiada(){
     this->topo = NULL;
+    this->calda = NULL;
 }
 
 void Lista_encadiada::inserir(int indice, std::string nome, std::string sobrenome){
     Node *novo_node = new Node(indice, nome, sobrenome);
     if(this->topo==NULL){
         this->topo = novo_node;
+        this->calda = novo_node;
     }else{
-        Node *aux = this->topo;
-        while(aux->dir!=NULL){
-            aux = aux->dir;
-        }
-        aux->dir = novo_node;
-        novo_node = aux;
+        this->calda->dir = novo_node;
+        novo_node->esq = this->calda;
+        this->calda = novo_node;
     }
 }
 

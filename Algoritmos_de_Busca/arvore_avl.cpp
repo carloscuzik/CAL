@@ -66,6 +66,3 @@ int Arvore_AVL::buscar(std::string nome, std::string sobrenome){
     }
     return -1;
 }
-
-void Arvore_AVL::show(){
-}

@@ -30,7 +30,3 @@ int Hash_encadiado::buscar(std::string nome, std::string sobrenome){
     int chave = gera_chave(nome, sobrenome);
     return this->lista[chave]->buscar(nome, sobrenome);
 }
-
-void Hash_encadiado::show(){
-    
-}

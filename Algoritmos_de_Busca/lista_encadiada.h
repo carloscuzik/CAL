@@ -9,6 +9,7 @@ class Lista_encadiada{
 private:
 public:
 	Node *topo;
+	Node *calda;
 	Lista_encadiada();
 	~Lista_encadiada();
 	void inserir(int indice, std::string nome, std::string sobrenome);

@@ -1,0 +1,68 @@
+
+
+
+Highcharts.chart('container', {
+	title: {
+		text: 'Gráfico para comparação dos tempos de Inserção'
+	},
+	xAxis: {
+		categories: [5000,25000,50000,100000,100000]
+	},
+	yAxis: {
+		title: {
+			text: 'Tempo (s)'
+		}
+	},
+	legend: {
+		layout: 'vertical',
+		align: 'right',
+		verticalAlign: 'middle'
+	},
+	plotOptions: {
+	},
+	series: [
+	{
+		name: 'linear',
+		data: [0.009745,0.029810,0.109620,0.146410,0.163828],
+	},{
+		name: 'binário',
+		data: [0.013945,0.090114,0.187038,0.396123,0.465950],
+	},{
+		name: 'hash',
+		data: [0.006622,0.033257,0.065479,0.138763,0.187943]
+	}]
+});
+
+
+
+Highcharts.chart('container', {
+	title: {
+		text: 'Gráfico para comparação dos tempos de Busca'
+	},
+	xAxis: {
+		categories: [1000,10000,10000,25000,75000]
+	},
+	yAxis: {
+		title: {
+			text: 'Tempo (s)'
+		}
+	},
+	legend: {
+		layout: 'vertical',
+		align: 'right',
+		verticalAlign: 'middle'
+	},
+	plotOptions: {
+	},
+	series: [
+	{
+		name: 'linear',
+		data: [0.064788,1.686283,2.656744,6.665599,20.019186],
+	},{
+		name: 'binário',
+		data: [0.004048,0.042062,0.040198,0.131530,0.318895],
+	},{
+		name: 'hash',
+		data: [0.002030,0.020746,0.021004,0.059745,0.174535]
+	}]
+});
