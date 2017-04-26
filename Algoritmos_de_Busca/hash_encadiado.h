@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include "lista_encadiada.h"
+// #include "arvore_avl.h"
 
 class Hash_encadiado{
 private:

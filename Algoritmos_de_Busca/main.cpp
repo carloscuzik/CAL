@@ -40,7 +40,7 @@ int main(int argc, char *argv[]){
 			lista->inserir(indice, nome, sobrenome);
 		}
 		fim = clock();
-		t_insert = ( (double) (fim - ini) ) / CLOCKS_PER_SEC;
+		t_insert = ( (double) (fim - ini) ) / (CLOCKS_PER_SEC/1000);
 		cin >> m;
 		ini = clock();
 		for(i=0;i<m;i++){
@@ -49,13 +49,13 @@ int main(int argc, char *argv[]){
 			cout << lista->buscar(nome, sobrenome) << endl;
 		}
 		fim = clock();
-		t_search = ( (double) (fim - ini) ) / CLOCKS_PER_SEC;
+		t_search = ( (double) (fim - ini) ) / (CLOCKS_PER_SEC/1000);
 		if(n==5000){
 			out = fopen("Results/linear.txt", "w");
 		}else{
 			out = fopen("Results/linear.txt", "a");
 		}
-		fprintf(out, "%i %lf %lf \n", n, (double)t_insert, (double)t_search);
+		fprintf(out, "%i %.2lf %.2lf \n", n, (double)t_insert, (double)t_search);
 	}else if(type==2){
 		cin >> n;
 		Arvore_AVL *avl = new Arvore_AVL;
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]){
 			avl->inserir(indice, nome, sobrenome);
 		}
 		fim = clock();
-		t_insert = ( (double) (fim - ini) ) / CLOCKS_PER_SEC;
+		t_insert = ( (double) (fim - ini) ) / (CLOCKS_PER_SEC/1000);
 		cin >> m;
 		ini = clock();
 		for(i=0;i<m;i++){
@@ -76,13 +76,13 @@ int main(int argc, char *argv[]){
 			cout << avl->buscar(nome, sobrenome) << endl;
 		}
 		fim = clock();
-		t_search = ( (double) (fim - ini) ) / CLOCKS_PER_SEC;
+		t_search = ( (double) (fim - ini) ) / (CLOCKS_PER_SEC/1000);
 		if(n==5000){
 			out = fopen("Results/binario.txt", "w");
 		}else{
 			out = fopen("Results/binario.txt", "a");
 		}
-		fprintf(out, "%i %lf %lf \n", n, (double)t_insert, (double)t_search);
+		fprintf(out, "%i %.2lf %.2lf \n", n, (double)t_insert, (double)t_search);
 	}else if(type==3){
 		cin >> n;
 		Hash_encadiado *hash = new Hash_encadiado(n);
@@ -94,7 +94,7 @@ int main(int argc, char *argv[]){
 			hash->inserir(indice, nome, sobrenome);
 		}
 		fim = clock();
-		t_insert = ( (double) (fim - ini) ) / CLOCKS_PER_SEC;
+		t_insert = ( (double) (fim - ini) ) / (CLOCKS_PER_SEC/1000);
 		cin >> m;
 		ini = clock();
 		for(i=0;i<m;i++){
@@ -103,13 +103,13 @@ int main(int argc, char *argv[]){
 			cout << hash->buscar(nome, sobrenome) << endl;
 		}
 		fim = clock();
-		t_search = ( (double) (fim - ini) ) / CLOCKS_PER_SEC;
+		t_search = ( (double) (fim - ini) ) / (CLOCKS_PER_SEC/1000);
 		if(n==5000){
 			out = fopen("Results/hash.txt", "w");
 		}else{
 			out = fopen("Results/hash.txt", "a");
 		}
-		fprintf(out, "%i %lf %lf \n", n, (double)t_insert, (double)t_search);
+		fprintf(out, "%i %.2lf %.2lf \n", n, (double)t_insert, (double)t_search);
 	}else{
 		cout << "não rolo" << endl;
 	}

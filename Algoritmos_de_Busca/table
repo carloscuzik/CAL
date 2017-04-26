@@ -1,0 +1,40 @@
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{| c || c | c | c | c | c |}
+			\hline
+				\textbf{Tipo} & \textbf{5000} & \textbf{25000} & \textbf{50000} & \textbf{100000} & \textbf{100000} \\
+			\hline
+				Linear & 5.83 & 26.32 & 52.46 & 105.13 & 106.85\\
+			\hline
+				Binário & 11.98 & 71.98 & 148.33 & 321.77 & 326.31\\
+			\hline
+				Hash & 6.33 & 30.28 & 58.33 & 115.58 & 116.08\\
+			\hline
+		\end{tabular}
+		\caption{Tempos de Inserção}
+		\label{table:1}
+	\end{table}
+
+
+
+
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{| c || c | c | c | c | c |}
+			\hline
+				\textbf{Tipo} & \textbf{1000} & \textbf{10000} & \textbf{10000} & \textbf{25000} & \textbf{75000} \\
+			\hline
+				Linear & 41.04 & 1560.35 & 2408.68 & 6251.04 & 18481.59\\
+			\hline
+				Binário & 3.00 & 33.88 & 34.46 & 93.81 & 258.81\\
+			\hline
+				Hash & 1.97 & 19.27 & 19.21 & 48.10 & 143.65\\
+			\hline
+		\end{tabular}
+		\caption{Tempos de Busca}
+		\label{table:1}
+	\end{table}
+
+
+
+
