@@ -4,11 +4,11 @@
 			\hline
 				\textbf{Tipo} & \textbf{5000} & \textbf{25000} & \textbf{50000} & \textbf{100000} & \textbf{100000} \\
 			\hline
-				Linear & 5.83 & 26.32 & 52.46 & 105.13 & 106.85\\
+				Linear & 6.00 & 32.51 & 62.01 & 147.85 & 123.81\\
 			\hline
-				Binário & 11.98 & 71.98 & 148.33 & 321.77 & 326.31\\
+				Binário & 13.68 & 81.91 & 204.99 & 396.30 & 371.69\\
 			\hline
-				Hash & 6.33 & 30.28 & 58.33 & 115.58 & 116.08\\
+				Hash & 6.55 & 33.52 & 73.84 & 210.80 & 155.33\\
 			\hline
 		\end{tabular}
 		\caption{Tempos de Inserção}
@@ -24,11 +24,11 @@
 			\hline
 				\textbf{Tipo} & \textbf{1000} & \textbf{10000} & \textbf{10000} & \textbf{25000} & \textbf{75000} \\
 			\hline
-				Linear & 41.04 & 1560.35 & 2408.68 & 6251.04 & 18481.59\\
+				Linear & 41.60 & 1856.63 & 3104.14 & 7438.52 & 21310.38\\
 			\hline
-				Binário & 3.00 & 33.88 & 34.46 & 93.81 & 258.81\\
+				Binário & 3.29 & 38.61 & 50.53 & 99.17 & 329.46\\
 			\hline
-				Hash & 1.97 & 19.27 & 19.21 & 48.10 & 143.65\\
+				Hash & 2.12 & 21.12 & 26.77 & 60.94 & 189.34\\
 			\hline
 		\end{tabular}
 		\caption{Tempos de Busca}
