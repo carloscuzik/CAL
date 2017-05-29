@@ -9,18 +9,14 @@ RSA::RSA(){
 void RSA::generate_keys(BigInteger p, BigInteger q){
 	this->p = p;
 	this->q = q;
-	this->n = (p-1)*(q-1);
-	this->alpha = p*q;
+	this->n = p*q;
+	this->alpha = (p-1)*(q-1);
 	this->e = choose_e();
-	this->d = choose_d();
+	this->d = choose_d(this->e,this->alpha);
 }
 
 int RSA::choose_e(){
 	return choose_a_small_prime_number();
-}
-
-BigInteger RSA::choose_d(){
-	return extended_euclid();
 }
 
 //Do this functions to use later
@@ -37,19 +33,50 @@ bool RSA::is_prime_number(BigInteger number){
 	return true;
 }
 
-int RSA::extended_euclid(){
-	return 105883;
+BigInteger RSA::choose_d(BigInteger e, BigInteger n){
+	return modular_reverse(e,n);
 }
 
 BigInteger RSA::modular_reverse(BigInteger a, BigInteger b){
-	return 0;
+	Trio t = extended_euclid(a,b);
+	return mod_BI(t.x,b);
 }
 
-// Trio RSA::gcdExt()
+Trio RSA::extended_euclid(BigInteger a, BigInteger b){
+	Trio t;
+	if(a<b){
+		BigInteger aux = a;
+		a = b;
+		b = aux;
+	}
+	
+	BigInteger m1 = 1;
+	BigInteger m2 = 0;
+	BigInteger n1 = 0;
+	BigInteger n2 = 1;
+	BigInteger res = 0;
+	BigInteger quo = 0;
+	
+	while(b!=0){
+		res = mod_BI(a,b);
+		quo = a / b;
+		a = b;
+		b = res;
+		if(b==0){
+			break;
+		}
+		t.y = m1-m2*quo;
+		t.x = n1-n2*quo;
+		m1 = m2;
+		m2 = t.y;
+		n1 = n2;
+		n2 = t.x;
+	}
+	t.mdc = a;
+	return t;
+}
 
-//end
-
-BigInteger RSA::mdc(BigInteger a BigInteger b){
+BigInteger RSA::mdc(BigInteger a, BigInteger b){
 	if(b==0)
 		return a;
 	else
@@ -79,8 +106,8 @@ void RSA::encrypt(std::string input, std::string output, BigInteger n, BigIntege
 	if((code_bin_number.back()).length()!=SIZE_BLOCK*8){
 		code_bin_number[code_bin_number.size()-1] = zero_complete(code_bin_number.back(),SIZE_BLOCK*8-(code_bin_number.back()).length());
 	}
-	std::std::vector<BigInteger> code_dec_number = block_bin_number_2_dec_number(code_bin_number);
-	std::std::vector<BigInteger> block_encrypt_data = block_dec_number_2_encrypt_data(code_dec_number,n,e);
+	std::vector<BigInteger> code_dec_number = block_bin_number_2_dec_number(code_bin_number);
+	std::vector<BigInteger> block_encrypt_data = block_dec_number_2_encrypt_data(code_dec_number,n,e);
 	write_cipher_in_file(output, block_encrypt_data);
 }
 
@@ -115,7 +142,7 @@ std::string RSA::string_2_bin_number(std::string parcer_message){
 std::string RSA::dec_number_2_bin_number(BigInteger dec_number){
 	std::string bin_number  = "";
 	int length = length_bin_number(dec_number);
-	BigInteger teste_value((int)pow(2,length-1));
+	BigInteger teste_value = ((int)pow(2,length-1));
 	int i;
 	for(i=0;i<length;i++){
 		if(teste_value <= dec_number){
@@ -130,14 +157,16 @@ std::string RSA::dec_number_2_bin_number(BigInteger dec_number){
 }
 
 int RSA::length_bin_number(BigInteger dec_number){
-	int length_return = 0;
-	while(dec > (pow_BI(2,length_return)-1)){
+	int length_return = 8;
+	while(dec_number > (pow_BI(2,length_return)-1)){
 		length_return+=8;
 	}
 	return length_return;
 }
 
 BigInteger RSA::pow_BI(BigInteger n, BigInteger a){
+	if(a.toInt()==0)
+		return 1;
 	if(a.toInt()==1)
 		return n;
 	if(a.toInt()==2)
@@ -145,6 +174,18 @@ BigInteger RSA::pow_BI(BigInteger n, BigInteger a){
 	if(mod_BI(a,2).toInt()==1)
 		return pow_BI(pow_BI(n,a/2),2)*n;
 	return pow_BI(pow_BI(n,a/2),2);
+}
+
+BigInteger RSA::pow_BI_Mod(BigInteger n, BigInteger a, BigInteger m){
+	if(a.toInt()==0)
+		return 1;
+	if(a.toInt()==1)
+		return mod_BI(n,m);
+	if(a.toInt()==2)
+		return mod_BI(n,m)*mod_BI(n,m);
+	if(mod_BI(a,2).toInt()==1)
+		return mod_BI(mod_BI(pow_BI_Mod(mod_BI(pow_BI_Mod(mod_BI(n,m),a/2,m),m),2,m),m)*mod_BI(n,m),m);
+	return mod_BI(pow_BI_Mod(mod_BI(pow_BI_Mod(mod_BI(n,m),a/2,m),m),2,m),m);
 }
 
 std::string RSA::zero_complete(std::string atual_bin_number, int size_last){
@@ -169,7 +210,7 @@ BigInteger RSA::bin_number_2_dec_number(std::string bin_number){
 	int length = bin_number.length();
 	BigInteger teste_value = pow_BI(2,length-1);
 	int i;
-	for(i=0;i<length;++){
+	for(i=0;i<length;i++){
 		if(bin_number[i] == '1'){
 			dec_number = dec_number + teste_value;
 		}
@@ -179,7 +220,7 @@ BigInteger RSA::bin_number_2_dec_number(std::string bin_number){
 }
 
 std::vector<BigInteger> RSA::block_dec_number_2_encrypt_data(std::vector<BigInteger> code_dec_number, BigInteger n, BigInteger e){
-	std::vetor<BigInteger> block_encrypt_data_return;
+	std::vector<BigInteger> block_encrypt_data_return;
 	int i;
 	for(i=0;i<(int)code_dec_number.size();i++){
 		block_encrypt_data_return.push_back(dec_number_2_encrypt_data(code_dec_number[i],n,e));
@@ -188,7 +229,8 @@ std::vector<BigInteger> RSA::block_dec_number_2_encrypt_data(std::vector<BigInte
 }
 
 BigInteger RSA::dec_number_2_encrypt_data(BigInteger dec_number, BigInteger n, BigInteger e){
-	return mob_BI(pow_BI(dec_number,e),n);
+	// return mod_BI(pow_BI(dec_number,e),n);
+	return pow_BI_Mod(dec_number,e,n);
 }
 
 BigInteger RSA::mod_BI(BigInteger n, BigInteger a){
@@ -219,7 +261,7 @@ void RSA::write_cipher_in_file(std::string file_name, std::vector<BigInteger> bl
 	if(arq == NULL){
 		std::cout << "Error! Could not open file.\n";
 	}else{
-		for(i=0;i<()block_encrypt_data.size()-1;i++){
+		for(i=0;i<(int)block_encrypt_data.size()-1;i++){
 			buffer = bigIntegerToString(block_encrypt_data[i]);
 			fprintf(arq,"%s\n",buffer.c_str());
 		}
@@ -273,10 +315,10 @@ void RSA::decrypt(std::string input, std::string output, BigInteger n, BigIntege
 }
 
 std::vector<std::string> RSA::block_dec_number_2_bin_number(std::vector<BigInteger> code_dec_number ){
-	std::vector<std::string> code_dec_number_return;
+	std::vector<std::string> code_bin_number_return;
 	int i;
 	for(i=0;i<(int)code_dec_number.size();i++){
-		code_bin_number.push_back(dec_number_2_bin_number(code_dec_number[i]));
+		code_bin_number_return.push_back(dec_number_2_bin_number(code_dec_number[i]));
 	}
 	return code_bin_number_return;
 }
@@ -299,7 +341,7 @@ std::string RSA::bin_number_2_parcer_message(std::string bin_number){
 	return parcer_message_return;
 }
 
-std::string RSA::block_message_2_single_message(std::vector<BigInteger> block_message){
+std::string RSA::block_message_2_single_message(std::vector<std::string> block_message){
 	std::string message_return = "";
 	int i;
 	for(i=0;i<(int)block_message.size();i++){
@@ -309,6 +351,6 @@ std::string RSA::block_message_2_single_message(std::vector<BigInteger> block_me
 }
 
 //The magic happend here
-BigInteger RSA::brute_orce_attack(BigInteger n, BigInteger e){
+BigInteger RSA::brute_force_attack(BigInteger n, BigInteger e){
 	return 0;
 }

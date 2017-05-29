@@ -1,14 +1,18 @@
 CC=g++
-override CFLAGS+=-DIL_STD -c -Wall -Og -g --std=c++11
-override CFLAGSL+= -O3
+override CFLAGS+=-DIL_STD -c -Wall -g --std=c++11
+override CFLAGSL+= -lm -O3
 override LDFLAGS+= 
 
 SOURCES=							\
     main.cpp						\
-    lista_encadiada.cpp				\
-    arvore_avl.cpp					\
-    hash_encadiado.cpp				\
-    node.cpp
+    rsa.cpp
+
+LIBS=								\
+	BigInteger.cc 					\
+	BigIntegerAlgorithms.cc 		\
+	BigIntegerUtils.cc 				\
+	BigUnsigned.cc 					\
+	BigUnsignedInABase.cc
 
 OBJECTS=$(SOURCES:.cpp=.o)
 
@@ -19,7 +23,7 @@ EXECUTABLE= hocus_pocus
 all: $(SOURCES) $(EXECUTABLE)
 	
 $(EXECUTABLE): $(OBJECTS)
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@ $(CFLAGSL)
+	$(CC) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $@ $(CFLAGSL)
 
 .cpp.o:
 	$(CC) $(CFLAGS) $< -o $@ $(CFLAGSL)

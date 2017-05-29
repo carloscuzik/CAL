@@ -11,5 +11,5 @@ arquivos+= ["gera_grafic.py > grafic"]
 arquivos+= ["gera_table.py > table"]
 
 for i in arquivos:
-	call("python " + i, shell = True)
+	call("python3 " + i, shell = True)
 

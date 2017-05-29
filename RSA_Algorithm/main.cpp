@@ -18,13 +18,13 @@ void print_time(clock_t t_total);
 
 using namespace std;
 
-int main(){
+int main(int argc, const char *argv[]){
 	clock_t t_start,t_end;
 	RSA *rsa = new RSA();
 	int type;
 	BigInteger par_01;
 	BigInteger par_02;
-	if(arcg!=4){
+	if(argc!=4){
 		printf("Midding argument\n");
 		return EXIT_FAILURE;
 	}else{
@@ -41,17 +41,27 @@ int main(){
 			break;
 		case 1:
 			t_start = clock();
-			rsa->decrypt("input","output",par_01,par_02);
+			rsa->decrypt("output","input",par_01,par_02);
 			t_end = clock();
 			print_time(t_end - t_start);
 			break;
 		case 2:
-			rsa->genarate_keys(521,383);
+			rsa->generate_keys(par_01,par_02);
+			cout << "p: " << rsa->get_p() << endl;
+			cout << "q: " << rsa->get_q() << endl;
+			cout << "n: " << rsa->get_n() << endl;
+			cout << "e: " << rsa->get_e() << endl;
+			cout << "d: " << rsa->get_d() << endl;
+			break;
+		case 5:
+
 			break;
 		case 6:
+			t_start = clock();
 			BigInteger d_discovered = rsa->brute_force_attack(par_01,par_02);
-			break;
-		default:
+			rsa->decrypt("output","input",par_01,par_02);
+			t_end = clock();
+			print_time(t_end - t_start);
 			break;
 	}
 	return 0;
@@ -62,10 +72,10 @@ void print_time(clock_t t_total){
 	int hours = time_a/3600;
 	time_a -= hours*3600;
 	int minutes = time_a/60;
-	tima_a -= minutes*60;
-	int seconds = (int)tima_a;
+	time_a -= minutes*60;
+	int seconds = (int)time_a;
 	time_a -= seconds;
-	double milliseconds = time_a;
+	double milliseconds = time_a*1000;
 	cout << "----- TOTAL TIME -----" << endl;
 	cout << hours << ":" << minutes << ":" << seconds << ":" << milliseconds << endl;
 }
