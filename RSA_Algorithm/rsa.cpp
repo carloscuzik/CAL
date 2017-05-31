@@ -30,6 +30,15 @@ BigInteger RSA::probable_prime_number(int bits){
 }
 
 bool RSA::is_prime_number(BigInteger number){
+	if(mod_BI(number,1)==0){
+		return false;
+	}
+	BigInteger i;
+	for(i=3;i<number/2;i = i+2){
+		if(mod_BI(number,i)==0){
+			return false;
+		}
+	}
 	return true;
 }
 
@@ -176,12 +185,15 @@ BigInteger RSA::pow_BI(BigInteger n, BigInteger a){
 	return pow_BI(pow_BI(n,a/2),2);
 }
 
+BigInteger zero = 0;
+BigInteger um   = 1;
+BigInteger dois = 2;
 BigInteger RSA::pow_BI_Mod(BigInteger n, BigInteger a, BigInteger m){
-	if(a.toInt()==0)
+	if(a==zero)
 		return 1;
-	if(a.toInt()==1)
+	if(a==um)
 		return mod_BI(n,m);
-	if(a.toInt()==2)
+	if(a==dois)
 		return mod_BI(n,m)*mod_BI(n,m);
 	if(mod_BI(a,2).toInt()==1)
 		return mod_BI(mod_BI(pow_BI_Mod(mod_BI(pow_BI_Mod(mod_BI(n,m),a/2,m),m),2,m),m)*mod_BI(n,m),m);
@@ -335,7 +347,10 @@ std::vector<std::string> RSA::block_bin_number_2_parcer_message(std::vector<std:
 std::string RSA::bin_number_2_parcer_message(std::string bin_number){
 	std::string parcer_message_return = "";
 	int i;
+	// std::cout << bin_number << std::endl;
+	// std::cout << (int)bin_number.length()/8 << std::endl;
 	for(i=0;i<(int)bin_number.length()/8;i++){
+
 		parcer_message_return = parcer_message_return + (char)(bin_number_2_dec_number(std::string(bin_number,i*8,8))).toInt();
 	}
 	return parcer_message_return;
@@ -352,5 +367,25 @@ std::string RSA::block_message_2_single_message(std::vector<std::string> block_m
 
 //The magic happend here
 BigInteger RSA::brute_force_attack(BigInteger n, BigInteger e){
-	return 0;
+	this->p = 1;
+	this->q = 1;
+	while(this->p*this->q != n){
+		this->p = next_prime(this->p);
+		this->q = discovery_q(this->p,n);
+	}
+	this->alpha = (this->p-1)*(this->q-1);
+	this->d = choose_d(e,this->alpha);
+	return this->d;
+}
+
+BigInteger RSA::next_prime(BigInteger p){
+	p+=2;
+	while(is_prime_number(p)){
+		p+=2;
+	}
+	return p;
+}
+
+BigInteger RSA::discovery_q(BigInteger p, BigInteger n){
+	return n/p;
 }

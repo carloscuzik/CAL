@@ -13,7 +13,7 @@
 #include <fstream>
 
 //bibliotecas locais
-#include "BigIntegerLibrary.hh"
+#include "BigIntegerLibrary.h"
 
 typedef struct ${
 	BigInteger x;	
@@ -73,6 +73,8 @@ public:
 	std::string bin_number_2_parcer_message(std::string bin_number);
 	std::string block_message_2_single_message(std::vector<std::string> block_message);
 	BigInteger brute_force_attack(BigInteger n, BigInteger e);
+	BigInteger next_prime(BigInteger p);
+	BigInteger discovery_q(BigInteger p, BigInteger n);
 };
 
 #endif /* RSA_H */

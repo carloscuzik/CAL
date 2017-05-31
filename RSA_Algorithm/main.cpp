@@ -11,7 +11,7 @@
 
 //bibliotecas locais
 #include "rsa.h"
-#include "BigIntegerLibrary.hh"
+#include "BigIntegerLibrary.h"
 
 BigInteger pow_donkey(BigInteger n, BigInteger a);
 void print_time(clock_t t_total);
@@ -59,7 +59,7 @@ int main(int argc, const char *argv[]){
 		case 6:
 			t_start = clock();
 			BigInteger d_discovered = rsa->brute_force_attack(par_01,par_02);
-			rsa->decrypt("output","input",par_01,par_02);
+			rsa->decrypt("output","input",par_01,d_discovered);
 			t_end = clock();
 			print_time(t_end - t_start);
 			break;
