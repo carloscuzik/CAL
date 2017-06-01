@@ -54,7 +54,8 @@ int main(int argc, const char *argv[]){
 			cout << "d: " << rsa->get_d() << endl;
 			break;
 		case 5:
-
+			std::cout << rsa->pow_BI(2,4423) - 1 << std::endl;
+			std::cout << rsa->pow_BI(2,9689) - 1 << std::endl;
 			break;
 		case 6:
 			t_start = clock();

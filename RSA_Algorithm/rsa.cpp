@@ -1,6 +1,6 @@
 #include "rsa.h"
 
-#define SIZE_BLOCK 2
+#define SIZE_BLOCK 4
 
 RSA::RSA(){
 	//
@@ -21,8 +21,8 @@ int RSA::choose_e(){
 
 //Do this functions to use later
 int RSA::choose_a_small_prime_number(){
-	return 227;
 	//crivo of Eratóstenes, i dont now...
+	return 227;
 }
 
 BigInteger RSA::probable_prime_number(int bits){
@@ -109,11 +109,13 @@ BigInteger RSA::get_d(){
 }
 
 void RSA::encrypt(std::string input, std::string output, BigInteger n, BigInteger e){
+	int tamanho = length_bin_number(n)/8;
+	// std::cout << tamanho << std::endl;////////////////////////////////////////////////////////////////////
 	std::string message = read_file(input);
-	std::vector<std::string> block_message = split_message(message, SIZE_BLOCK);
+	std::vector<std::string> block_message = split_message(message, tamanho);
 	std::vector<std::string> code_bin_number = block_message_2_bin_number(block_message);
-	if((code_bin_number.back()).length()!=SIZE_BLOCK*8){
-		code_bin_number[code_bin_number.size()-1] = zero_complete(code_bin_number.back(),SIZE_BLOCK*8-(code_bin_number.back()).length());
+	if((int)(code_bin_number.back()).length()!=tamanho*8){
+		code_bin_number[code_bin_number.size()-1] = zero_complete(code_bin_number.back(),tamanho*8-(code_bin_number.back()).length());
 	}
 	std::vector<BigInteger> code_dec_number = block_bin_number_2_dec_number(code_bin_number);
 	std::vector<BigInteger> block_encrypt_data = block_dec_number_2_encrypt_data(code_dec_number,n,e);
@@ -151,8 +153,10 @@ std::string RSA::string_2_bin_number(std::string parcer_message){
 std::string RSA::dec_number_2_bin_number(BigInteger dec_number){
 	std::string bin_number  = "";
 	int length = length_bin_number(dec_number);
-	BigInteger teste_value = ((int)pow(2,length-1));
+	// std::cout << length << std::endl;////////////////////////////////////////////////////////////////////
+	BigInteger teste_value = (pow_BI(2,length-1));
 	int i;
+	// std::cout << dec_number << std::endl;
 	for(i=0;i<length;i++){
 		if(teste_value <= dec_number){
 			bin_number = bin_number + "1";
@@ -162,6 +166,7 @@ std::string RSA::dec_number_2_bin_number(BigInteger dec_number){
 		}
 		teste_value = teste_value / 2;
 	}
+	// std::cout << bin_number << std::endl;
 	return bin_number;
 }
 
@@ -347,10 +352,9 @@ std::vector<std::string> RSA::block_bin_number_2_parcer_message(std::vector<std:
 std::string RSA::bin_number_2_parcer_message(std::string bin_number){
 	std::string parcer_message_return = "";
 	int i;
-	// std::cout << bin_number << std::endl;
+	// std::cout << bin_number << " - ";
 	// std::cout << (int)bin_number.length()/8 << std::endl;
 	for(i=0;i<(int)bin_number.length()/8;i++){
-
 		parcer_message_return = parcer_message_return + (char)(bin_number_2_dec_number(std::string(bin_number,i*8,8))).toInt();
 	}
 	return parcer_message_return;
