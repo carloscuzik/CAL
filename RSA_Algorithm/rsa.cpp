@@ -19,23 +19,75 @@ int RSA::choose_e(){
 	return choose_a_small_prime_number();
 }
 
-//Do this functions to use later
 int RSA::choose_a_small_prime_number(){
-	//crivo of Eratóstenes, i dont now...
-	return 227;
+	int i, j;
+    int valorMaximo = 100000;
+ 	std::vector<int> vetor;
+ 	std::vector<int> primes;
+ 	vetor.push_back(1);
+ 	vetor.push_back(1);
+    for (i=2; i<=valorMaximo; i++){
+        vetor.push_back(i);
+    }
+    for (i=2; i<=valorMaximo; i++) {
+        if (vetor[i]==i) {
+        	primes.push_back(i);
+            for (j=i+i; j<=valorMaximo; j+=i) {
+                vetor[j]=0;
+            }
+        }
+    }
+    
+    // std::cout << primes[rand() % primes.size()] << std::endl;
+    // std::cout << primes[0] << std::endl;
+    // std::cout << primes[1] << std::endl;
+    // std::cout << primes[2] << std::endl;
+    // std::cout << primes[10] << std::endl;
+    return primes[rand() % primes.size()];
+	// return 9151;
+	// return 227;
 }
 
 BigInteger RSA::probable_prime_number(int bits){
 	return 0;
 }
 
-bool RSA::is_prime_number(BigInteger number){
-	if(mod_BI(number,1)==0){
+bool RSA::is_prime_number(BigInteger number, int interations){
+	if(number <= 3){
+		return true;
+	}
+	if(mod_BI(number,2)==0){
+		std::cout << " par " << std::endl;
 		return false;
 	}
-	BigInteger i;
-	for(i=3;i<number/2;i = i+2){
-		if(mod_BI(number,i)==0){
+	int s = 0;
+	BigInteger d = number - 1;
+	while(mod_BI(d,2)==0){
+		s++;
+		d = d/2;
+	}
+	int i;
+	// BigInteger aux;
+	for(i = 0; i < interations; i++) {
+		// aux = rand();
+		// std::cout << "aux: " << aux << std::endl;
+		BigInteger a = (mod_BI(rand(), (number - 3))) + 2;
+		// std::cout << "a: " << a << std::endl;
+		BigInteger x = pow_BI_Mod(a, d, number);
+		if(x == 1 || x == number - 1){
+			continue;
+		}
+		int r = 1;
+		for(r = 1; r < s; r++) {
+			x = pow_BI_Mod(x, 2, number);
+			if(x == 1){
+				return false;
+			}
+			if(x == number - 1){
+				break;
+			}
+		}
+		if(r == s){
 			return false;
 		}
 	}
@@ -109,7 +161,8 @@ BigInteger RSA::get_d(){
 }
 
 void RSA::encrypt(std::string input, std::string output, BigInteger n, BigInteger e){
-	int tamanho = length_bin_number(n)/8;
+	// int tamanho = length_bin_number(n)/8;
+	int tamanho = SIZE_BLOCK;
 	// std::cout << tamanho << std::endl;////////////////////////////////////////////////////////////////////
 	std::string message = read_file(input);
 	std::vector<std::string> block_message = split_message(message, tamanho);
@@ -371,11 +424,19 @@ std::string RSA::block_message_2_single_message(std::vector<std::string> block_m
 
 //The magic happend here
 BigInteger RSA::brute_force_attack(BigInteger n, BigInteger e){
-	this->p = 1;
-	this->q = 1;
+	this->p = this->sqrt(n);
+	if(mod_BI(this->p,2)==0){
+		this->p--;
+	}
+	// std::cout << this->p << std::endl;
+	// this->q = discovery_q(this->p,n);
+	this->q = n/this->p;
 	while(this->p*this->q != n){
-		this->p = next_prime(this->p);
-		this->q = discovery_q(this->p,n);
+		// std::cout << this->p << std::endl;
+		// this->p = next_prime(this->p);
+		this->p -= 2;
+		// this->q = discovery_q(this->p,n);
+		this->q = n/this->p;
 	}
 	this->alpha = (this->p-1)*(this->q-1);
 	this->d = choose_d(e,this->alpha);
@@ -383,8 +444,11 @@ BigInteger RSA::brute_force_attack(BigInteger n, BigInteger e){
 }
 
 BigInteger RSA::next_prime(BigInteger p){
-	p+=2;
-	while(is_prime_number(p)){
+	// if(mod_BI(p,2)==0)
+	// 	p++;
+	// else
+		p+=2;
+	while(is_prime_number(p,40)==0){
 		p+=2;
 	}
 	return p;
@@ -392,4 +456,25 @@ BigInteger RSA::next_prime(BigInteger p){
 
 BigInteger RSA::discovery_q(BigInteger p, BigInteger n){
 	return n/p;
+}
+
+BigInteger RSA::sqrt(BigInteger number) {
+	BigUnsigned a = 1;
+	// std::cout << number << std::endl;
+	BigUnsigned n = stringToBigUnsigned(bigIntegerToString(number));
+	n.bitShiftRight(n,5);
+	BigUnsigned b = n + 8;
+	n = stringToBigUnsigned(bigIntegerToString(number));
+	while(b >= a){
+		BigUnsigned m = a + b;
+		m.bitShiftRight(m,1);
+		if((m*m) > n){
+			b = m - 1;
+		}
+		else{
+			a = m + 1;
+		}
+	}
+	a--;
+	return stringToBigInteger(bigUnsignedToString(a));
 }

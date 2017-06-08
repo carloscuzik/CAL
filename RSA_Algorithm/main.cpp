@@ -19,8 +19,10 @@ void print_time(clock_t t_total);
 using namespace std;
 
 int main(int argc, const char *argv[]){
+	srand(time(NULL));
 	clock_t t_start,t_end;
 	RSA *rsa = new RSA();
+	Trio t;
 	int type;
 	BigInteger par_01;
 	BigInteger par_02;
@@ -52,6 +54,18 @@ int main(int argc, const char *argv[]){
 			cout << "n: " << rsa->get_n() << endl;
 			cout << "e: " << rsa->get_e() << endl;
 			cout << "d: " << rsa->get_d() << endl;
+			break;
+		case 3:
+			// cout << rsa->mdc(par_01, par_02) << endl;
+			t = rsa->extended_euclid(par_01, par_02);
+			cout << t.x << endl;
+			cout << t.y << endl;
+			cout << t.mdc << endl;
+			break;
+		case 4: 
+			cout << rsa->sqrt(239812014798221) << endl;
+			// cout << rsa->next_prime(7) << endl;
+			// cout << rsa->is_prime_number(par_01,512) << endl;
 			break;
 		case 5:
 			std::cout << rsa->pow_BI(2,4423) - 1 << std::endl;

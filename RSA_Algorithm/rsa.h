@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cstring>
 #include <cmath>
+#include <ctime>
 #include <string>
 #include <algorithm>
 #include <vector>
@@ -38,7 +39,7 @@ public:
 	//Do this functions to use later
 	int choose_a_small_prime_number();
 	BigInteger probable_prime_number(int bits);
-	bool is_prime_number(BigInteger number);
+	bool is_prime_number(BigInteger number, int interations);
 	Trio extended_euclid(BigInteger a, BigInteger b);
 	BigInteger modular_reverse(BigInteger a, BigInteger b);
 	// Trio gcdExt()
@@ -75,6 +76,7 @@ public:
 	BigInteger brute_force_attack(BigInteger n, BigInteger e);
 	BigInteger next_prime(BigInteger p);
 	BigInteger discovery_q(BigInteger p, BigInteger n);
+	BigInteger sqrt(BigInteger number);
 };
 
 #endif /* RSA_H */
