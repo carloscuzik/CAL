@@ -15,6 +15,15 @@ void RSA::generate_keys(BigInteger p, BigInteger q){
 	this->d = choose_d(this->e,this->alpha);
 }
 
+void RSA::generate_keys(int bits){
+	this->p = choose_a_prime_number(bits);
+	this->q = choose_a_prime_number(bits);
+	this->n = this->p*this->q;
+	this->alpha = (this->p-1)*(this->q-1);
+	this->e = choose_e();
+	this->d = choose_d(this->e,this->alpha);
+}
+
 int RSA::choose_e(){
 	return choose_a_small_prime_number();
 }
@@ -48,8 +57,20 @@ int RSA::choose_a_small_prime_number(){
 	// return 227;
 }
 
+BigInteger RSA::choose_a_prime_number(int bits){
+	BigInteger prime_number = probable_prime_number(bits);
+	while(!is_prime_number(prime_number,100)){
+		prime_number = probable_prime_number(bits);
+	}
+	return prime_number;
+}
+
 BigInteger RSA::probable_prime_number(int bits){
-	return 0;
+	BigInteger prime_number = (mod_BI(rand(), pow_BI(2,bits-1)+1)) + pow_BI(2,bits);
+	if(mod_BI(prime_number,2)==0){
+		prime_number--;
+	}
+	return prime_number;
 }
 
 bool RSA::is_prime_number(BigInteger number, int interations){
@@ -428,19 +449,59 @@ BigInteger RSA::brute_force_attack(BigInteger n, BigInteger e){
 	if(mod_BI(this->p,2)==0){
 		this->p--;
 	}
-	// std::cout << this->p << std::endl;
-	// this->q = discovery_q(this->p,n);
 	this->q = n/this->p;
-	while(this->p*this->q != n){
-		// std::cout << this->p << std::endl;
-		// this->p = next_prime(this->p);
-		this->p -= 2;
-		// this->q = discovery_q(this->p,n);
-		this->q = n/this->p;
+	std::cout << n << std::endl;
+	if(length_bin_number(n)>63){
+		std::cout << ">63: " << this->p << std::endl; 
+		while(this->p*this->q != n){
+			this->p -= 2;
+			this->q = n/this->p;
+		}
+	}else{
+		std::cout << "<63: " << this->p << std::endl;
+		//converte tudo pra unsigned long long
+		unsigned long long n_ull = n.toUnsignedLLong();
+		unsigned long long p_ull = p.toUnsignedLLong();
+		unsigned long long q_ull = q.toUnsignedLLong();
+		while(p_ull*q_ull != n_ull){
+			p_ull -= 2;
+			q_ull = n_ull/p_ull;
+		}
+		//converte tudo pra BigInteger denovo
+		n = n_ull;
+		p = p_ull;
+		q = q_ull;
 	}
 	this->alpha = (this->p-1)*(this->q-1);
 	this->d = choose_d(e,this->alpha);
 	return this->d;
+
+
+
+
+	// toUnsignedLong
+
+
+
+	// BigInteger p_local;
+	// BigInteger q_local;
+	// BigInteger d_local;
+	// BigInteger alpha_local;
+
+	// p_local = this->sqrt(n);
+	// if(mod_BI(p_local,2)==0){
+	// 	p_local = p_local - 1;
+	// }
+	// q_local = n/p_local;
+	// std::cout << p_local << std::endl;
+	// while(p_local*q_local != n){
+	// 	p_local = p_local - 2;
+	// 	q_local = n/p_local;
+	// }
+	// std::cout << p_local << std::endl;
+	// alpha_local = (p_local-1)*(q_local-1);
+	// d_local = choose_d(e,alpha_local);
+	// return d_local;
 }
 
 BigInteger RSA::next_prime(BigInteger p){

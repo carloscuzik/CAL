@@ -48,7 +48,11 @@ int main(int argc, const char *argv[]){
 			print_time(t_end - t_start);
 			break;
 		case 2:
-			rsa->generate_keys(par_01,par_02);
+			if(par_02 == 0)
+				rsa->generate_keys(par_01.toInt());
+			else{
+				rsa->generate_keys(par_01,par_02);
+			}
 			cout << "p: " << rsa->get_p() << endl;
 			cout << "q: " << rsa->get_q() << endl;
 			cout << "n: " << rsa->get_n() << endl;

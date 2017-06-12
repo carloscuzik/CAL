@@ -54,6 +54,8 @@ public:
 	}
 
 	// Constructors from primitive integer types
+	BigInteger(unsigned long long x);
+	BigInteger(         long long x);
 	BigInteger(unsigned long  x);
 	BigInteger(         long  x);
 	BigInteger(unsigned int   x);
@@ -64,12 +66,13 @@ public:
 	/* Converters to primitive integer types
 	 * The implicit conversion operators caused trouble, so these are now
 	 * named. */
-	unsigned long  toUnsignedLong () const;
-	long           toLong         () const;
-	unsigned int   toUnsignedInt  () const;
-	int            toInt          () const;
-	unsigned short toUnsignedShort() const;
-	short          toShort        () const;
+	unsigned long      toUnsignedLong () const;
+	unsigned long long toUnsignedLLong() const;
+	long               toLong         () const;
+	unsigned int       toUnsignedInt  () const;
+	int                toInt          () const;
+	unsigned short     toUnsignedShort() const;
+	short              toShort        () const;
 protected:
 	// Helper
 	template <class X> X convertToUnsignedPrimitive() const;

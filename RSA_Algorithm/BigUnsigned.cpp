@@ -6,12 +6,14 @@
 // BigUnsigned.hh.
 
 BigUnsigned::BigUnsigned(unsigned long  x) { initFromPrimitive      (x); }
+BigUnsigned::BigUnsigned(unsigned long long x) { initFromPrimitive      (x); }
 BigUnsigned::BigUnsigned(unsigned int   x) { initFromPrimitive      (x); }
 BigUnsigned::BigUnsigned(unsigned short x) { initFromPrimitive      (x); }
 BigUnsigned::BigUnsigned(         long  x) { initFromSignedPrimitive(x); }
 BigUnsigned::BigUnsigned(         int   x) { initFromSignedPrimitive(x); }
 BigUnsigned::BigUnsigned(         short x) { initFromSignedPrimitive(x); }
 
+unsigned long long BigUnsigned::toUnsignedLLong () const { return convertToPrimitive      <unsigned long long >(); }
 unsigned long  BigUnsigned::toUnsignedLong () const { return convertToPrimitive      <unsigned long >(); }
 unsigned int   BigUnsigned::toUnsignedInt  () const { return convertToPrimitive      <unsigned int  >(); }
 unsigned short BigUnsigned::toUnsignedShort() const { return convertToPrimitive      <unsigned short>(); }

@@ -15,6 +15,7 @@
 
 //bibliotecas locais
 #include "BigIntegerLibrary.h"
+#include "BigUnsigned.h"
 
 typedef struct ${
 	BigInteger x;	
@@ -34,12 +35,14 @@ public:
 	RSA();
 	~RSA();
 	void generate_keys(BigInteger p, BigInteger q);
+	void generate_keys(int bits);
 	int choose_e();
 	BigInteger choose_d(BigInteger e, BigInteger n);
 	//Do this functions to use later
 	int choose_a_small_prime_number();
+	BigInteger choose_a_prime_number(int bits);
 	BigInteger probable_prime_number(int bits);
-	bool is_prime_number(BigInteger number, int interations);
+	bool is_prime_number(BigInteger number, int interations = 1024);
 	Trio extended_euclid(BigInteger a, BigInteger b);
 	BigInteger modular_reverse(BigInteger a, BigInteger b);
 	// Trio gcdExt()

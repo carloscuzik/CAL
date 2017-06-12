@@ -54,6 +54,8 @@ public:
 	~BigUnsigned() {}
 	
 	// Constructors from primitive integer types
+	BigUnsigned(unsigned long long x);
+	BigUnsigned(         long long x);
 	BigUnsigned(unsigned long  x);
 	BigUnsigned(         long  x);
 	BigUnsigned(unsigned int   x);
@@ -69,6 +71,7 @@ public:
 	/* Converters to primitive integer types
 	 * The implicit conversion operators caused trouble, so these are now
 	 * named. */
+	unsigned long long toUnsignedLLong () const;
 	unsigned long  toUnsignedLong () const;
 	long           toLong         () const;
 	unsigned int   toUnsignedInt  () const;
