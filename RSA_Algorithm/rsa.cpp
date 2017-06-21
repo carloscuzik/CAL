@@ -450,27 +450,10 @@ BigInteger RSA::brute_force_attack(BigInteger n, BigInteger e){
 		this->p--;
 	}
 	this->q = n/this->p;
-	std::cout << n << std::endl;
-	if(length_bin_number(n)>63){
-		std::cout << ">63: " << this->p << std::endl; 
-		while(this->p*this->q != n){
-			this->p -= 2;
-			this->q = n/this->p;
-		}
-	}else{
-		std::cout << "<63: " << this->p << std::endl;
-		//converte tudo pra unsigned long long
-		unsigned long long n_ull = n.toUnsignedLLong();
-		unsigned long long p_ull = p.toUnsignedLLong();
-		unsigned long long q_ull = q.toUnsignedLLong();
-		while(p_ull*q_ull != n_ull){
-			p_ull -= 2;
-			q_ull = n_ull/p_ull;
-		}
-		//converte tudo pra BigInteger denovo
-		n = n_ull;
-		p = p_ull;
-		q = q_ull;
+	// std::cout << n << std::endl;
+	while(this->p*this->q != n){
+		this->p -= 2;
+		this->q = n/this->p;
 	}
 	this->alpha = (this->p-1)*(this->q-1);
 	this->d = choose_d(e,this->alpha);
