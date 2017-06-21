@@ -103,7 +103,7 @@ void print_time(clock_t t_total){
 	cout << hours << ":" << minutes << ":" << seconds << ":" << milliseconds << endl;
 }
 
-#define NUM_AMOSTRAS 1
+#define NUM_AMOSTRAS 5
 double media(double vetor[]);
 
 void run_test(){
