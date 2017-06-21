@@ -30,11 +30,11 @@ int main(int argc, const char *argv[]){
 	if(argc!=4){
 		printf("Midding argument\n");
 		printf("         Descrição        -      Paramentros\n");
-		printf("2 - Para Gerar as Chaves ... (número de bits, 0)\n");
-		printf("0 - Para Criptgrafia     ... (n,e)\n");
-		printf("1 - Para Decriptar       ... (n,d)\n");
-		printf("6 - Para Força Bruta     ... (n,e)\n");
-		printf("3 - Para Rodar os testes ... (n,e)\n");
+		printf("2 - Para Gerar as Chaves ... (./ hocus_pocus 3 número de bits 0)\n");
+		printf("0 - Para Criptgrafia     ... (./ hocus_pocus 3 n e)\n");
+		printf("1 - Para Decriptar       ... (./ hocus_pocus 3 n d)\n");
+		printf("6 - Para Força Bruta     ... (./ hocus_pocus 3 n e)\n");
+		printf("3 - Para Rodar os testes ... (./ hocus_pocus 3 0 0)\n");
 		return EXIT_FAILURE;
 	}else{
 		type = atoi(argv[1]);
@@ -103,7 +103,7 @@ void print_time(clock_t t_total){
 	cout << hours << ":" << minutes << ":" << seconds << ":" << milliseconds << endl;
 }
 
-#define NUM_AMOSTRAS 5
+#define NUM_AMOSTRAS 1
 double media(double vetor[]);
 
 void run_test(){
@@ -113,27 +113,27 @@ void run_test(){
 	double decr[NUM_AMOSTRAS];
 	double bfat[NUM_AMOSTRAS];
 	RSA *rsa = new RSA();
-	for(i=32;i<43;i++){
+	for(i=32;i<100;i++){
 		rsa->generate_keys(i);
 		for(j=0;j<NUM_AMOSTRAS;j++){
 			//Criptografia
 			t_start = clock();
 			rsa->encrypt("input","output",rsa->get_n(),rsa->get_e());
 			t_end = clock();
-			crip[j] = (t_end-t_start)/(CLOCKS_PER_SEC/1.0);
+			crip[j] = (double) (t_end-t_start)/(CLOCKS_PER_SEC/1.0);
 			
 			//Decriptografia
 			t_start = clock();
 			rsa->decrypt("output","input",rsa->get_n(),rsa->get_d());
 			t_end = clock();
-			decr[j] = (t_end-t_start)/(CLOCKS_PER_SEC/1.0);
+			decr[j] = (double) (t_end-t_start)/(CLOCKS_PER_SEC/1.0);
 
 			//Força Bruta
 			t_start = clock();
 			BigInteger d_discovered = rsa->brute_force_attack(rsa->get_n(),rsa->get_e());
 			rsa->decrypt("output","input",rsa->get_n(),d_discovered);
 			t_end = clock();
-			bfat[j] = (t_end-t_start)/(CLOCKS_PER_SEC/1.0);
+			bfat[j] = (double) (t_end-t_start)/(CLOCKS_PER_SEC/1.0);
 		}
 		printf("%lf\n",media(crip));
 		printf("%lf\n",media(decr));
